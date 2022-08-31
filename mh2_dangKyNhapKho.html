@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap Simple Data Table</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            color: #566787;
+            background: #f5f5f5;
+            font-family: 'Roboto', sans-serif;
+        }
+        .table-responsive {
+            margin: 30px 0;
+        }
+        .table-wrapper {
+            min-width: 1000px;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 1px 1px rgba(0,0,0,.05);
+            height: 800px;
+        }
+        .table-title {
+            padding-bottom: 10px;
+            margin: 0 0 10px;
+        }
+        .table-title h2 {
+            margin: 8px 0 0;
+            font-size: 22px;
+        }
+        .search-box {
+            position: relative;
+            float: left;
+        }
+        .search-box input {
+            height: 34px;
+            border-radius: 20px;
+            padding-left: 35px;
+            border-color: #ddd;
+            box-shadow: none;
+        }
+        .search-box input:focus {
+            border-color: #3FBAE4;
+        }
+        .search-box i {
+            color: #a0a5b1;
+            position: absolute;
+            font-size: 19px;
+            top: 8px;
+            left: 10px;
+        }
+        table.table tr th, table.table tr td {
+            border-color: #e9e9e9;
+        }
+        table.table-striped tbody tr:nth-of-type(odd) {
+            background-color: #fcfcfc;
+        }
+        table.table-striped.table-hover tbody tr:hover {
+            background: #f5f5f5;
+        }
+        table.table th i {
+            font-size: 13px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+        table.table td:last-child {
+            width: 130px;
+        }
+        table.table td a {
+            color: #a0a5b1;
+            display: inline-block;
+            margin: 0 5px;
+        }
+        table.table td a.view {
+            color: #03A9F4;
+        }
+        table.table td a.edit {
+            color: #FFC107;
+        }
+        table.table td a.delete {
+            color: #E34724;
+        }
+        table.table td i {
+            font-size: 19px;
+        }
+        .pagination {
+            float: right;
+            margin: 0 0 5px;
+        }
+        .pagination li a {
+            border: none;
+            font-size: 95%;
+            width: 30px;
+            height: 30px;
+            color: #999;
+            margin: 0 2px;
+            line-height: 30px;
+            border-radius: 30px !important;
+            text-align: center;
+            padding: 0;
+        }
+        .pagination li a:hover {
+            color: #666;
+        }
+        .pagination li.active a {
+            background: #03A9F4;
+        }
+        .pagination li.active a:hover {
+            background: #0397d6;
+        }
+        .pagination li.disabled i {
+            color: #ccc;
+        }
+        .pagination li i {
+            font-size: 16px;
+            padding-top: 6px
+        }
+        .hint-text {
+            float: left;
+            margin-top: 6px;
+            font-size: 95%;
+        }
+    </style>
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+</head>
+<body>
+<div class="container" >
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="form-row">
+                    <div class=>
+                        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                            <div class="container-fluid">
+                                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                        <li class="nav-item">
+                                            <i class="bi bi-house"></i>
+                                            <a class="nav-link active" aria-current="page" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+                                                <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+                                            </svg> ホーム</a>
+                                        </li>
+                                        <li class="nav-item" style="margin-left: 30px">
+                                            <a class="nav-link" href="#">商品</a>
+                                        </li>
+                                        <li class="nav-item" style="margin-left: 30px">
+                                            <a class="nav-link" href="#">レポート</a>
+                                        </li>
+                                        <li class="nav-item" style="margin-left: 30px">
+                                            <a class="nav-link" href="#">発注</a>
+                                        </li>
+                                        <li class="nav-item" style="margin-left: 30px">
+                                            <a class="nav-link" href="#">ベンダーポータル一覧</a>
+                                        </li>
+                                        <li class="nav-item" style="margin-left: 30px">
+                                            <a class="nav-link" href="#">欠品管理</a>
+                                        </li>
+                                        <li class="nav-item" style="margin-left: 30px">
+                                            <a class="nav-link" href="#">入庫管理</a>
+                                        </li>
+                                        <li class="nav-item" style="margin-left: 30px">
+                                            <a class="nav-link" href="#">在庫管理</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+
+                </div>
+                <div style=" margin-top: 60px;text-align: center">
+                    <h1><u>入庫予定登録 </u></h1>
+                </div>
+                <div class="form-row"style="width: 130px;margin-left: 890px">
+                    <button class="btn btn-block" style="background: #0d6efd; color: white">ファイル選択</button>
+                </div>
+
+                <div style=";margin-left: 50px" class="form-row">
+
+                    <div class="form-row" >
+                        <div class="control-group col-sm-6" style="width: 300px;margin-top: 46px">
+                            <label>センターコード（必須）</label>
+                            <select  style="border-radius: 20px;width: 300px;height: 34px;border-color: #dddddd">
+                                <option value="1"> </option>
+
+                            </select>
+                            <p class="help-block text-danger"></p>
+                            <span style="color: red"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="control-group col-sm-6" style="width: 300px;margin-top: 46px;margin-left: 30px">
+                            <label>取引区分（任意）</label>
+                            <select  style="border-radius: 20px;width: 300px;height: 34px;border-color: #dddddd">
+                                <option value="1"> </option>
+
+                            </select>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="control-group col-sm-6" style="width: 300px;margin-top: 46px;margin-left: 30px">
+                            <label>特売フラグ（任意）</label>
+                            <select  style="border-radius: 20px;width: 300px;height: 34px;border-color: #dddddd">
+                                <option value="1"> </option>
+
+                            </select>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+
+                </div>
+                <div style="margin-left: 50px" class="form-row">
+                    <div class="control-group col-sm-6" style="width: 300px;margin-top: 46px">
+                        <label>発注日（必須）</label>
+                        <input style="width: 300px;border-radius: 20px;height: 34px; border-color: #dddddd" type="Date" class="form-control datetimepicker-input" value="2022/08/28"
+                               data-toggle="datetimepicker"
+                               data-target="#date-1" required="required"
+                               data-validation-required-message="Please enter date"/>
+                        <p class="help-block text-danger"></p>
+                    </div>
+                    <div class="control-group col-sm-6" style="width: 300px;margin-top: 46px;margin-left: 30px">
+                        <label>入荷予定日（必須）</label>
+                        <input style="width: 300px;border-radius: 20px;height: 34px; border-color: #dddddd" type="Date" class="form-control datetimepicker-input" value="2022/08/28"
+                               data-toggle="datetimepicker"
+                               data-target="#date-1" required="required"
+                               data-validation-required-message="Please enter date"/>
+                        <p class="help-block text-danger"></p>
+                    </div>
+                    <div class="control-group col-sm-6" style="width: 300px;margin-top: 46px;margin-left: 30px">
+                        <label>入荷鮮度日付（必須）</label>
+                        <input style="width: 300px;border-radius: 20px;height: 34px; border-color: #dddddd" type="Date" class="form-control datetimepicker-input" value="2022/08/28"
+                               data-toggle="datetimepicker"
+                               data-target="#date-1" required="required"
+                               data-validation-required-message="Please enter date"/>
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <div style="margin-left: 50px" class="form-row">
+
+
+                    <div class="control-group col-sm-6" style="margin-top: 46px;width: 250px;">
+                        <div class="search-box">
+                            <label>発注番号（必須）</label>
+                            <input style="width: 200px" type="text" class="form-control" placeholder="番号..">
+                        </div>
+                    </div>
+                    <div  class="control-group col-sm-6" style=";margin-top: 46px;width: 250px">
+                        <div class="search-box">
+                            <label>行番号（必須）</label>
+                            <input style="width: 200px" type="text" class="form-control" placeholder="番号..">
+                        </div>
+                    </div>
+                    <div  class="control-group col-sm-6" style="margin-top: 46px;width: 250px">
+                        <div class="search-box">
+                            <label>JAN コード</label>
+                            <input type="text" class="form-control" placeholder="コード..">
+                        </div>
+                    </div>
+                    <div  class="control-group col-sm-6" style=";margin-top: 46px;width: 250px">
+                        <div class="search-box">
+                            <label>入荷予定数量（必須）</label>
+                            <input style="width: 200px" type="text" class="form-control" placeholder="数量..">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-row" style="margin-left: 400px; margin-top: 450px">
+                    <div class="control-group col-md-6">
+                        <button class="btn btn-block" style="background: #0d6efd;color: white"><h4>登 録</h4></button>
+                    </div>
+                </div>
+
+            </div>
+            </div>
+    </div>
+</div>
+</body>
+</html>

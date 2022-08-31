@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">    <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap Simple Data Table</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <style>
+    body {
+      color: #566787;
+      background: #f5f5f5;
+      font-family: 'Roboto', sans-serif;
+    }
+    .table-responsive {
+      margin: 30px 0;
+    }
+    .table-wrapper {
+      min-width: 1000px;
+      background: #fff;
+      padding: 20px;
+      box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    }
+    .table-title {
+      padding-bottom: 10px;
+      margin: 0 0 10px;
+    }
+    .table-title h2 {
+      margin: 8px 0 0;
+      font-size: 22px;
+    }
+    .search-box {
+      position: relative;
+      float: right;
+    }
+    .search-box input {
+      height: 34px;
+      border-radius: 20px;
+      padding-left: 35px;
+      border-color: #ddd;
+      box-shadow: none;
+    }
+    .search-box input:focus {
+      border-color: #3FBAE4;
+    }
+    .search-box i {
+      color: #a0a5b1;
+      position: absolute;
+      font-size: 19px;
+      top: 8px;
+      left: 10px;
+    }
+    table.table tr th, table.table tr td {
+      border-color: #e9e9e9;
+    }
+    table.table-striped tbody tr:nth-of-type(odd) {
+      background-color: #fcfcfc;
+    }
+    table.table-striped.table-hover tbody tr:hover {
+      background: #f5f5f5;
+    }
+    table.table th i {
+      font-size: 13px;
+      margin: 0 5px;
+      cursor: pointer;
+    }
+    table.table td:last-child {
+      width: 130px;
+    }
+    table.table td a {
+      color: #a0a5b1;
+      display: inline-block;
+      margin: 0 5px;
+    }
+    table.table td a.view {
+      color: #03A9F4;
+    }
+    table.table td a.edit {
+      color: #FFC107;
+    }
+    table.table td a.delete {
+      color: #E34724;
+    }
+    table.table td i {
+      font-size: 19px;
+    }
+    .pagination {
+      float: right;
+      margin: 0 0 5px;
+    }
+    .pagination li a {
+      border: none;
+      font-size: 95%;
+      width: 30px;
+      height: 30px;
+      color: #999;
+      margin: 0 2px;
+      line-height: 30px;
+      border-radius: 30px !important;
+      text-align: center;
+      padding: 0;
+    }
+    .pagination li a:hover {
+      color: #666;
+    }
+    .pagination li.active a {
+      background: #03A9F4;
+    }
+    .pagination li.active a:hover {
+      background: #0397d6;
+    }
+    .pagination li.disabled i {
+      color: #ccc;
+    }
+    .pagination li i {
+      font-size: 16px;
+      padding-top: 6px
+    }
+    .hint-text {
+      float: left;
+      margin-top: 6px;
+      font-size: 95%;
+    }
+  </style>
+  <script>
+    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
+</head>
+<body>
+<div class="container">
+  <div class="table-responsive">
+    <div class="table-wrapper">
+      <div class="table-title">
+        <div class="form-row">
+          <div class=>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+              <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                      <i class="bi bi-house"></i>
+                      <a class="nav-link active" aria-current="page" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+                        <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+                      </svg> ホーム</a>
+                    </li>
+                    <li class="nav-item" style="margin-left: 30px">
+                      <a class="nav-link" href="#">商品</a>
+                    </li>
+                    <li class="nav-item" style="margin-left: 30px">
+                      <a class="nav-link" href="#">レポート</a>
+                    </li>
+                    <li class="nav-item" style="margin-left: 30px">
+                      <a class="nav-link" href="#">発注</a>
+                    </li>
+                    <li class="nav-item" style="margin-left: 30px">
+                      <a class="nav-link" href="#">ベンダーポータル一覧</a>
+                    </li>
+                    <li class="nav-item" style="margin-left: 30px">
+                      <a class="nav-link" href="#">欠品管理</a>
+                    </li>
+                    <li class="nav-item" style="margin-left: 30px">
+                      <a class="nav-link" href="#">入庫管理</a>
+                    </li>
+                    <li class="nav-item" style="margin-left: 30px">
+                      <a class="nav-link" href="#">在庫管理</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </nav>
+          </div>
+
+        </div>
+        <div style="text-align: center">
+          <h3><u>入庫予定一覧</u></h3>
+        </div>
+        <br>
+        <br>
+        <div class="form-row">
+          <div class="control-group col-sm-6" style="width: 250px">
+            <label>From発注日（必須）</label>
+            <input style="width: 210px;border-radius: 20px;height: 34px; border-color: #dddddd" type="Date" class="form-control datetimepicker-input" value="2022/08/28"
+                   data-toggle="datetimepicker"
+                   data-target="#date-1" required="required"
+                   data-validation-required-message="Please enter date"/>
+            <p class="help-block text-danger"></p>
+          </div>
+          <div class="control-group col-sm-6" style="width: 250px">
+            <label>To発注日（必須）</label>
+            <input style="width: 210px;border-radius: 20px;height: 34px; border-color: #dddddd" type="Date" class="form-control datetimepicker-input" value="2022/08/28"
+                   data-toggle="datetimepicker"
+                   data-target="#date-1" required="required"
+                   data-validation-required-message="Please enter date"/>
+            <p class="help-block text-danger"></p>
+          </div>
+          <div class="control-group col-sm-6" style="width: 250px">
+            <label>From入荷予定日（任意）</label>
+            <input style="width: 210px;border-radius: 20px;height: 34px; border-color: #dddddd" type="Date" class="form-control datetimepicker-input" value="2022/08/28"
+                   data-toggle="datetimepicker"
+                   data-target="#date-1" required="required"
+                   data-validation-required-message="Please enter date"/>
+            <p class="help-block text-danger"></p>
+          </div>
+          <div class="control-group col-sm-6" style="width: 250px">
+            <label>To入荷予定日（任意）</label>
+            <input style="width: 210px;border-radius: 20px;height: 34px; border-color: #dddddd" type="Date" class="form-control datetimepicker-input" value="2022/08/28"
+                   data-toggle="datetimepicker"
+                   data-target="#date-1" required="required"
+                   data-validation-required-message="Please enter date"/>
+            <p class="help-block text-danger"></p>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="control-group col-sm-6" style="width: 250px">
+            <div class="search-box">
+              <label>取引先名</label>
+              <input type="text" class="form-control" placeholder="取引先名..">
+            </div>
+          </div>
+          <div  class="control-group col-sm-6" style="width: 250px">
+            <div class="search-box">
+              <label>JAN コード</label>
+              <input type="text" class="form-control" placeholder="コード..">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="control-group col-sm-6" style="width: 250px">
+              <label>センターコード（必須）</label>
+              <select  style="border-radius: 20px;width: 200px;height: 34px;border-color: #dddddd">
+                <option value="1"> </option>
+
+              </select>
+              <p class="help-block text-danger"></p>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="control-group col-sm-6" style="width: 250px">
+              <label>取引区分（任意）</label>
+              <select  style="border-radius: 20px;width: 200px;height: 34px;border-color: #dddddd">
+                <option value="1"> </option>
+
+              </select>
+              <p class="help-block text-danger"></p>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="control-group col-sm-6" style="width: 250px">
+              <label>特売フラグ（任意）</label>
+              <select  style="border-radius: 20px;width: 200px;height: 34px;border-color: #dddddd">
+                <option value="1"> </option>
+
+              </select>
+              <p class="help-block text-danger"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row" style="margin-left: 870px; margin-top: 170px">
+          <div class="control-group col-md-6">
+            <button class="btn btn-block" style="background: #0d6efd;color: white">検 索</button>
+          </div>
+        </div>
+
+      </div>
+      <div style="margin-top: 30px">
+        <div class="form-row">
+          <div class="col-sm-6"><h3> <b>検索</b> 一覧</h3></div>
+        </div>
+      </div>
+
+      <table style="margin-top: 30px" class="table table-striped table-hover table-bordered">
+        <thead>
+        <tr>
+          <th>#</th>
+          <th style="width: 120px">センター名 </th>
+          <th style="width: 80px">取引区分 </th>
+          <th>発注日 </th>
+          <th>入荷予定日 </th>
+          <th>発注番号 </th>
+          <th>行番号 </th>
+          <th>JAN コード  </th>
+          <th style="width: 80px">商品名 </th>
+          <th>入荷予定数量 </th>
+          <th>入荷鮮度日付 </th>
+          <th>特売フラグ </th>
+          <th>ステータス </th>
+          <th>修正 </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>1</td>
+          <td>川崎 センター</td>
+          <td>買取取引</td>
+          <td>2022/05/03</td>
+          <td>2022/05/09</td>
+          <td>111545</td>
+          <td>55464</td>
+          <td>1656524849565</td>
+          <td>サバ魚 </td>
+          <td>1200</td>
+          <td>2022/05/30</td>
+          <td>レ</td>
+          <td>10</td>
+          <td style=" width: 50px;text-align: center"><svg xmlns="http://www.w3.org/2000/svg"  width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+          </svg></td>
+
+
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>東京 センター</td>
+          <td>買取取引</td>
+          <td>2022/04/03</td>
+          <td>2022/05/04</td>
+          <td>64646</td>
+          <td>32326</td>
+          <td>1320875265462</td>
+          <td>メロン</td>
+          <td>650</td>
+          <td>2022/05/25</td>
+          <td>レ</td>
+          <td>10</td>
+          <td style="width: 50px;text-align: center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+          </svg></td>
+
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>大阪 センター</td>
+          <td>買取取引</td>
+          <td>2022/06/03</td>
+          <td>2022/07/09</td>
+          <td>64165</td>
+          <td>25495</td>
+          <td>6446489656556</td>
+          <td>卵</td>
+          <td>1460</td>
+          <td>2022/07/29</td>
+          <td></td>
+          <td>00</td>
+          <td style="width: 50px;text-align: center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+          </svg></td>
+
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>東京 センター</td>
+          <td>買取取引</td>
+          <td>2021/05/03</td>
+          <td>2021/05/07</td>
+          <td>23235</td>
+          <td>59596</td>
+          <td>2561223445462</td>
+          <td>ミルク</td>
+          <td>1120</td>
+          <td>2021/05/28</td>
+          <td></td>
+          <td>00</td>
+          <td style="width: 50px;text-align: center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+          </svg></td>
+
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>北海道 センター</td>
+          <td>買取取引</td>
+          <td>2020/05/03</td>
+          <td>2020/05/16</td>
+          <td>5962</td>
+          <td>51656</td>
+          <td>2989565615484</td>
+          <td>キャベツ</td>
+          <td>1000</td>
+          <td>2020/06/01</td>
+          <td>レ</td>
+          <td>10</td>
+          <td style="width: 50px;text-align: center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+          </svg></td>
+
+
+        </tr>
+        </tbody>
+      </table>
+      <div class="clearfix">
+        <div class="hint-text"><b>25</b> 件中 <b>5</b> 件を表示</div>
+        <ul class="pagination">
+          <li class="page-item disabled"><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
+          <li class="page-item"><a href="#" class="page-link">1</a></li>
+          <li class="page-item"><a href="#" class="page-link">2</a></li>
+          <li class="page-item active"><a href="#" class="page-link">3</a></li>
+          <li class="page-item"><a href="#" class="page-link">4</a></li>
+          <li class="page-item"><a href="#" class="page-link">5</a></li>
+          <li class="page-item"><a href="#" class="page-link"><i class="fa fa-angle-double-right"></i></a></li>
+        </ul>
+      </div>
+      <br>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>
